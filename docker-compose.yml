@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  event-store:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=events
+
+  tests:
+    build:
+      context: .
+    depends_on:
+      - event-store
