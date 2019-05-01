@@ -13,7 +13,7 @@ function stop_containers() {
 }
 if [[ "$1" != "--no-build" ]]; then
     echo "Starting Container Build..."
-    docker build -t platform-deployer-verify-data-db-migrations:test .
+    docker build -t platform-deployer-verify-data-db-migrations:latest-tests .
 fi
 start_postgres
 

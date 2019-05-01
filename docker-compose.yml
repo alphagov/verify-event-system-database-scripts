@@ -9,6 +9,6 @@ services:
       - POSTGRES_DB=events
 
   tests:
-    image: platform-deployer-verify-data-db-migrations:test
+    image: platform-deployer-verify-data-db-migrations:latest-tests
     depends_on:
       - event-store
