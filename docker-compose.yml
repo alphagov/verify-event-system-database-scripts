@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.3'
 
 services:
   event-store:
@@ -9,7 +9,6 @@ services:
       - POSTGRES_DB=events
 
   tests:
-    build:
-      context: .
+    image: platform-deployer-verify-data-db-migrations:test
     depends_on:
       - event-store

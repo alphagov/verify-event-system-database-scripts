@@ -11,10 +11,10 @@ function stop_containers() {
   echo "Stopping and Cleaning Up Containers..."
   docker-compose down -v --remove-orphans
 }
-
-echo "Starting Container Build..."
-docker-compose build
-
+if [[ "$1" != "--no-build" ]]; then
+    echo "Starting Container Build..."
+    docker build -t platform-deployer-verify-data-db-migrations:test .
+fi
 start_postgres
 
 docker-compose run tests migrate
@@ -23,12 +23,12 @@ MIGRATION_RESULT=$?
 stop_containers
 
 if [[ $MIGRATION_RESULT == 0 ]]; then
-    echo "\033[32m*******************************"
-    echo "\033[32m** Migrations Test Succeeded **"
-    echo "\033[32m*******************************"
+    printf "\033[32m*******************************\n"
+    printf "\033[32m** Migrations Test Succeeded **\n"
+    printf "\033[32m*******************************\n\033[0m"
 else
-    echo "\033[31m****************************"
-    echo "\033[31m** Migrations Test Failed **"
-    echo "\033[31m****************************"
+    printf "\033[31m****************************\n"
+    printf "\033[31m** Migrations Test Failed **\n"
+    printf "\033[31m****************************\n\033[0m"
     exit $MIGRATION_RESULT
 fi
