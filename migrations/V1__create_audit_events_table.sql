@@ -1,4 +1,4 @@
-CREATE SCHEMA audit AUTHORIZATION postgres;
+CREATE SCHEMA audit AUTHORIZATION event_system_owner;
 
 CREATE TABLE audit.audit_events
 (
@@ -11,5 +11,5 @@ CREATE TABLE audit.audit_events
     PRIMARY KEY (event_id, time_stamp)
 )
 TABLESPACE pg_default;
-ALTER TABLE audit.audit_events OWNER to postgres;
+ALTER TABLE audit.audit_events OWNER to event_system_owner;
 CREATE INDEX ON audit.audit_events (time_stamp);

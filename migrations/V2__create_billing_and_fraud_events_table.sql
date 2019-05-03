@@ -1,4 +1,4 @@
-CREATE SCHEMA billing AUTHORIZATION postgres;
+CREATE SCHEMA billing AUTHORIZATION event_system_owner;
 
 CREATE TABLE billing.billing_events
 (
@@ -12,7 +12,7 @@ CREATE TABLE billing.billing_events
     provided_level_of_assurance  text COLLATE pg_catalog."default" NOT NULL
 )
 TABLESPACE pg_default;
-ALTER TABLE billing.billing_events OWNER to postgres;
+ALTER TABLE billing.billing_events OWNER to event_system_owner;
 CREATE INDEX ON billing.billing_events (time_stamp);
 CREATE INDEX ON billing.billing_events (hashed_persistent_id);
 CREATE INDEX ON billing.billing_events (provided_level_of_assurance);
@@ -28,6 +28,6 @@ CREATE TABLE billing.fraud_events
     fraud_indicator       text COLLATE pg_catalog."default" NOT NULL
 )
 TABLESPACE pg_default;
-ALTER TABLE billing.fraud_events OWNER to postgres;
+ALTER TABLE billing.fraud_events OWNER to event_system_owner;
 CREATE INDEX ON billing.fraud_events (time_stamp);
 CREATE INDEX ON billing.fraud_events (hashed_persistent_id);
