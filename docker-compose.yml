@@ -7,8 +7,12 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=events
+    volumes:
+      - ./test-initialise-scripts:/docker-entrypoint-initdb.d
 
   tests:
     image: platform-deployer-verify-data-db-migrations:latest-tests
+    env_file:
+      - test.env
     depends_on:
       - event-store
