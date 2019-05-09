@@ -1,5 +1,9 @@
 #!/bin/sh
 
+set -e
+
+trap stop_containers EXIT
+
 function start_postgres(){
     echo "Starting Postgres Service Container..."
     docker-compose up -d --force-recreate event-store
@@ -19,8 +23,6 @@ start_postgres
 
 docker-compose run tests migrate
 MIGRATION_RESULT=$?
-
-stop_containers
 
 if [[ $MIGRATION_RESULT == 0 ]]; then
     printf "\033[32m*******************************\n"
