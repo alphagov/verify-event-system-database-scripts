@@ -53,5 +53,4 @@ if __name__ == '__main__':
     status = submit_job()
 
     if status == BATCH_FAILURE_STATUS:
-        exit(1)
-
+        sys.exit(1)

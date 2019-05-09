@@ -11,12 +11,13 @@ RUN apt-get update \
  && pip3 install awscli \
  && mkdir -p /flyway/tools
 
-COPY migrations/*.sql /flyway/sql/
+COPY requirements/prod.txt /flyway/
+RUN pip3 install -r /flyway/prod.txt
+
 COPY docker-entrypoint.sh /flyway/
 COPY tools/submit_job.py /flyway/tools
-COPY requirements/prod.txt /flyway/
 
-RUN pip3 install -r /flyway/prod.txt
+COPY migrations/*.sql /flyway/sql/
 
 ENTRYPOINT ["/flyway/docker-entrypoint.sh"]
 CMD ["-?"]
