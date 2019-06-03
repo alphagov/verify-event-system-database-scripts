@@ -30,10 +30,10 @@ The Docker image uses the following environment variables to establish a Postgre
 
 ## Building the Image
 
-The image is automatically built and pushed the repository by the event system build pipeline 
+The image is automatically built and pushed to the repository by the event system build pipeline 
 for deployment to the AWS environments.
 
-For local testing, the image can be build using the `./build.sh` script.
+For local testing, the image can be built using the `./build.sh` script.
 
 ## Testing
 
