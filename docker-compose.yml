@@ -10,8 +10,16 @@ services:
     volumes:
       - ./test-initialise-scripts:/docker-entrypoint-initdb.d
 
-  tests:
+  flyway:
     image: platform-deployer-verify-data-db-migrations:latest-tests
+    env_file:
+      - test.env
+    depends_on:
+      - event-store
+
+  psql:
+    image: postgres:10.6
+    command: psql
     env_file:
       - test.env
     depends_on:

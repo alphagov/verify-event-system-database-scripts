@@ -16,12 +16,11 @@ function stop_containers() {
   docker-compose down -v --remove-orphans
 }
 if [[ "$1" != "--no-build" ]]; then
-    echo "Starting Container Build..."
-    docker build -t platform-deployer-verify-data-db-migrations:latest-tests .
+    ./build.sh
 fi
 start_postgres
 
-docker-compose run tests migrate
+docker-compose run flyway migrate
 MIGRATION_RESULT=$?
 
 if [[ $MIGRATION_RESULT == 0 ]]; then
