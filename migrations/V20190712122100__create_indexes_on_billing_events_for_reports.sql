@@ -1,1 +1,1 @@
-CREATE INDEX CONCURRENTLY ON billing.billing_events USING btree (hashed_persistent_id, time_stamp);
+CREATE INDEX CONCURRENTLY billing_events_hashed_persistent_id_time_stamp_idx ON billing.billing_events USING btree (hashed_persistent_id, time_stamp);

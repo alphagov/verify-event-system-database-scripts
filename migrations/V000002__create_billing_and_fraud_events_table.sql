@@ -13,9 +13,9 @@ CREATE TABLE billing.billing_events
 )
 TABLESPACE pg_default;
 ALTER TABLE billing.billing_events OWNER to event_system_owner;
-CREATE INDEX ON billing.billing_events (time_stamp);
-CREATE INDEX ON billing.billing_events (hashed_persistent_id);
-CREATE INDEX ON billing.billing_events (provided_level_of_assurance);
+CREATE INDEX billing_events_time_stamp_idx1 ON billing.billing_events (time_stamp);
+CREATE INDEX billing_events_hashed_persistent_id_idx1 ON billing.billing_events (hashed_persistent_id);
+CREATE INDEX billing_events_provided_level_of_assurance_idx1 ON billing.billing_events (provided_level_of_assurance);
 
 CREATE TABLE billing.fraud_events
 (
@@ -29,5 +29,5 @@ CREATE TABLE billing.fraud_events
 )
 TABLESPACE pg_default;
 ALTER TABLE billing.fraud_events OWNER to event_system_owner;
-CREATE INDEX ON billing.fraud_events (time_stamp);
-CREATE INDEX ON billing.fraud_events (hashed_persistent_id);
+CREATE INDEX fraud_events_time_stamp_idx1 ON billing.fraud_events (time_stamp);
+CREATE INDEX fraud_events_hashed_persistent_id_idx1 ON billing.fraud_events (hashed_persistent_id);
