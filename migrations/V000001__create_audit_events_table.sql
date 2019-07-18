@@ -12,4 +12,4 @@ CREATE TABLE audit.audit_events
 )
 TABLESPACE pg_default;
 ALTER TABLE audit.audit_events OWNER to event_system_owner;
-CREATE INDEX audit_events_time_stamp_idx1 ON audit.audit_events (time_stamp);
+CREATE INDEX audit_events_time_stamp_idx ON audit.audit_events (time_stamp);
