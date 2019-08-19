@@ -6,5 +6,5 @@ UPDATE billing.fraud_events fe
    AND ae.time_stamp = fe.time_stamp
    AND ae.event_type = 'session_event'
    AND ae.details ->> 'session_event_type' = 'fraud_detected'
-   AND be.event_id IS NULL
+   AND fe.event_id IS NULL
 ;
