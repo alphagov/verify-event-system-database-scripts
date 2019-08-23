@@ -3,15 +3,13 @@
 # Source this script in your CLI session.
 # Sets some PostgreSQL variables to make accessing a database simpler.
 
-HOST_URL=
-
-if [ -z ${HOST_URL} ] ;
+if [ "$#" -ne 1 ] ;
 then
-    echo "Host URL not set. Quitting early."
+    echo "You must specify the Host URL to connect to. Quitting early."
     return 1;
 fi
 
-export PGHOST=${HOST_URL}
+export PGHOST=$1
 export PGUSER=iam_reader
 export PGDATABASE=events
 export PGSSLMODE=require
