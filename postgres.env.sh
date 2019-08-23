@@ -24,7 +24,7 @@ fi
 if [ -z ${AWS_ACCESS_KEY_ID} ] || [ -z ${AWS_SECRET_ACCESS_KEY} ] ;
 then
     echo "AWS access or secret key not set."
-    echo "Please authenticate for __admin__ access to an appropriate AWS account."
+    echo "Please authenticate to an appropriate AWS role."
     echo "Quitting early."
     return 1;
 fi
