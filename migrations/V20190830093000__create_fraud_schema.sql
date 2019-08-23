@@ -2,7 +2,7 @@ CREATE SCHEMA idp_data AUTHORIZATION event_system_owner;
 
 CREATE TABLE idp_data.upload_session
 (
-    id	                    BIGINT NOT NULL,
+    id	                    BIGSERIAL,
     time_stamp	            TIMESTAMP NOT NULL,
     source_file_name	    TEXT COLLATE pg_catalog."default" NOT NULL,
     idp_entity_id	        TEXT COLLATE pg_catalog."default" NOT NULL,
@@ -15,7 +15,7 @@ ALTER TABLE idp_data.upload_session OWNER to event_system_owner;
 
 CREATE TABLE idp_data.upload_session_validation_failures
 (
-    id	                    BIGINT NOT NULL,
+    id	                    BIGSERIAL,
     upload_session_id       BIGINT NOT NULL,
     row                     BIGINT NOT NULL,
     field                   TEXT COLLATE pg_catalog."default" NOT NULL,
@@ -30,7 +30,7 @@ ALTER TABLE idp_data.upload_session_validation_failures OWNER to event_system_ow
 
 CREATE TABLE idp_data.idp_fraud_events
 (
-    id	                    BIGINT NOT NULL,
+    id	                    BIGSERIAL,
     idp_entity_id	        TEXT COLLATE pg_catalog."default" NOT NULL,
     idp_event_id	        TEXT COLLATE pg_catalog."default" NOT NULL,
     time_stamp	            TIMESTAMP NOT NULL,
