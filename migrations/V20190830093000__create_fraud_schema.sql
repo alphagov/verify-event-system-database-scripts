@@ -1,6 +1,6 @@
 CREATE SCHEMA idp_data AUTHORIZATION event_system_owner;
 
-CREATE TABLE idp_data.upload_session
+CREATE TABLE idp_data.upload_sessions
 (
     id                      BIGSERIAL,
     time_stamp              TIMESTAMP NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE idp_data.upload_session
     PRIMARY KEY (id)
 )
 TABLESPACE pg_default;
-ALTER TABLE idp_data.upload_session OWNER to event_system_owner;
+ALTER TABLE idp_data.upload_sessions OWNER to event_system_owner;
 
 CREATE TABLE idp_data.upload_session_validation_failures
 (
@@ -21,7 +21,7 @@ CREATE TABLE idp_data.upload_session_validation_failures
     field                   TEXT COLLATE pg_catalog."default" NOT NULL,
     message                 TEXT COLLATE pg_catalog."default" NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT upload_session_validation_failures_upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES idp_data.upload_session(id)
+    CONSTRAINT upload_session_validation_failures_upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES idp_data.upload_sessions(id)
       ON DELETE RESTRICT
       ON UPDATE RESTRICT
 )
@@ -45,7 +45,7 @@ CREATE TABLE idp_data.idp_fraud_events
     CONSTRAINT idp_fraud_events_event_id_fkey FOREIGN KEY (event_id) REFERENCES billing.fraud_events(event_id)
       ON DELETE RESTRICT
       ON UPDATE RESTRICT,
-    CONSTRAINT idp_fraud_events_upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES idp_data.upload_session(id)
+    CONSTRAINT idp_fraud_events_upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES idp_data.upload_sessions(id)
       ON DELETE RESTRICT
       ON UPDATE RESTRICT
 )
@@ -54,14 +54,14 @@ ALTER TABLE idp_data.idp_fraud_events OWNER to event_system_owner;
 
 CREATE UNIQUE INDEX idp_fraud_events_idp_entity_id_idp_event_id_idx ON idp_data.idp_fraud_events(idp_entity_id, idp_event_id);
 
-CREATE TABLE idp_data.contra_indicators
+CREATE TABLE idp_data.idp_fraud_event_contraindicators
 (
     idp_fraud_events_id     BIGINT,
-    contra_indicator        TEXT COLLATE pg_catalog."default" NOT NULL,
-    PRIMARY KEY (idp_fraud_events_id, contra_indicator),
-    CONSTRAINT contra_indicators_idp_fraud_events_id_fkey FOREIGN KEY (idp_fraud_events_id) REFERENCES idp_data.idp_fraud_events(id)
+    contraindicator_code    TEXT COLLATE pg_catalog."default" NOT NULL,
+    PRIMARY KEY (idp_fraud_events_id, contraindicator_code),
+    CONSTRAINT idp_fraud_event_contraindicators_idp_fraud_events_id_fkey FOREIGN KEY (idp_fraud_events_id) REFERENCES idp_data.idp_fraud_events(id)
       ON DELETE RESTRICT
       ON UPDATE RESTRICT
 )
 TABLESPACE pg_default;
-ALTER TABLE idp_data.contra_indicators OWNER to event_system_owner;
+ALTER TABLE idp_data.idp_fraud_event_contraindicators OWNER to event_system_owner;
