@@ -2,12 +2,12 @@ CREATE SCHEMA idp_data AUTHORIZATION event_system_owner;
 
 CREATE TABLE idp_data.upload_session
 (
-    id	                    BIGSERIAL,
-    time_stamp	            TIMESTAMP NOT NULL,
-    source_file_name	    TEXT COLLATE pg_catalog."default" NOT NULL,
-    idp_entity_id	        TEXT COLLATE pg_catalog."default" NOT NULL,
+    id                      BIGSERIAL,
+    time_stamp              TIMESTAMP NOT NULL,
+    source_file_name        TEXT COLLATE pg_catalog."default" NOT NULL,
+    idp_entity_id           TEXT COLLATE pg_catalog."default" NOT NULL,
     userid                  TEXT COLLATE pg_catalog."default" NOT NULL,
-    passed_validation	    BOOLEAN NOT NULL,
+    passed_validation       BOOLEAN NOT NULL,
     PRIMARY KEY (id)
 )
 TABLESPACE pg_default;
@@ -15,7 +15,7 @@ ALTER TABLE idp_data.upload_session OWNER to event_system_owner;
 
 CREATE TABLE idp_data.upload_session_validation_failures
 (
-    id	                    BIGSERIAL,
+    id                      BIGSERIAL,
     upload_session_id       BIGINT NOT NULL,
     row                     BIGINT NOT NULL,
     field                   TEXT COLLATE pg_catalog."default" NOT NULL,
@@ -30,17 +30,17 @@ ALTER TABLE idp_data.upload_session_validation_failures OWNER to event_system_ow
 
 CREATE TABLE idp_data.idp_fraud_events
 (
-    id	                    BIGSERIAL,
-    idp_entity_id	        TEXT COLLATE pg_catalog."default" NOT NULL,
-    idp_event_id	        TEXT COLLATE pg_catalog."default" NOT NULL,
-    time_stamp	            TIMESTAMP NOT NULL,
-    fid_code	            TEXT COLLATE pg_catalog."default" NOT NULL,
-    request_id	            TEXT COLLATE pg_catalog."default" NOT NULL,
-    pid	                    TEXT COLLATE pg_catalog."default" NOT NULL,
-    client_ip_address	    TEXT COLLATE pg_catalog."default" NOT NULL,
-    contra_score	        INT NOT NULL,
-    event_id	            TEXT COLLATE pg_catalog."default" NULL,
-    upload_session_id	    BIGINT NOT NULL,
+    id                      BIGSERIAL,
+    idp_entity_id           TEXT COLLATE pg_catalog."default" NOT NULL,
+    idp_event_id            TEXT COLLATE pg_catalog."default" NOT NULL,
+    time_stamp              TIMESTAMP NOT NULL,
+    fid_code                TEXT COLLATE pg_catalog."default" NOT NULL,
+    request_id              TEXT COLLATE pg_catalog."default" NOT NULL,
+    pid                     TEXT COLLATE pg_catalog."default" NOT NULL,
+    client_ip_address       TEXT COLLATE pg_catalog."default" NOT NULL,
+    contra_score            INT NOT NULL,
+    event_id                TEXT COLLATE pg_catalog."default" NULL,
+    upload_session_id       BIGINT NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT event_id_fkey FOREIGN KEY (event_id) REFERENCES billing.fraud_events(event_id)
       ON DELETE RESTRICT
