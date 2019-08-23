@@ -58,7 +58,10 @@ CREATE TABLE idp_data.contra_indicators
 (
     idp_fraud_events_id     BIGINT,
     contra_indicator        TEXT COLLATE pg_catalog."default" NOT NULL,
-    PRIMARY KEY (idp_fraud_events_id, contra_indicator)
+    PRIMARY KEY (idp_fraud_events_id, contra_indicator),
+    CONSTRAINT fraud_events_id_fkey FOREIGN KEY (idp_fraud_events_id) REFERENCES idp_data.idp_fraud_events(id)
+      ON DELETE RESTRICT
+      ON UPDATE RESTRICT
 )
 TABLESPACE pg_default;
 ALTER TABLE idp_data.contra_indicators OWNER to event_system_owner;
