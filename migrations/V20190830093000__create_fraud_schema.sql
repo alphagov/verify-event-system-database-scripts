@@ -21,7 +21,7 @@ CREATE TABLE idp_data.upload_session_validation_failures
     field                   TEXT COLLATE pg_catalog."default" NOT NULL,
     message                 TEXT COLLATE pg_catalog."default" NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES idp_data.upload_session(id)
+    CONSTRAINT upload_session_validation_failures_upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES idp_data.upload_session(id)
       ON DELETE RESTRICT
       ON UPDATE RESTRICT
 )
@@ -42,10 +42,10 @@ CREATE TABLE idp_data.idp_fraud_events
     event_id                TEXT COLLATE pg_catalog."default" NULL,
     upload_session_id       BIGINT NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT event_id_fkey FOREIGN KEY (event_id) REFERENCES billing.fraud_events(event_id)
+    CONSTRAINT idp_fraud_events_event_id_fkey FOREIGN KEY (event_id) REFERENCES billing.fraud_events(event_id)
       ON DELETE RESTRICT
       ON UPDATE RESTRICT,
-    CONSTRAINT upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES idp_data.upload_session(id)
+    CONSTRAINT idp_fraud_events_upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES idp_data.upload_session(id)
       ON DELETE RESTRICT
       ON UPDATE RESTRICT
 )
@@ -59,7 +59,7 @@ CREATE TABLE idp_data.contra_indicators
     idp_fraud_events_id     BIGINT,
     contra_indicator        TEXT COLLATE pg_catalog."default" NOT NULL,
     PRIMARY KEY (idp_fraud_events_id, contra_indicator),
-    CONSTRAINT fraud_events_id_fkey FOREIGN KEY (idp_fraud_events_id) REFERENCES idp_data.idp_fraud_events(id)
+    CONSTRAINT contra_indicators_idp_fraud_events_id_fkey FOREIGN KEY (idp_fraud_events_id) REFERENCES idp_data.idp_fraud_events(id)
       ON DELETE RESTRICT
       ON UPDATE RESTRICT
 )
