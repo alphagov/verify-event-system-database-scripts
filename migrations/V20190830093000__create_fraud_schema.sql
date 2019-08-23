@@ -1,6 +1,6 @@
-CREATE SCHEMA fraud AUTHORIZATION event_system_owner;
+CREATE SCHEMA idp_data AUTHORIZATION event_system_owner;
 
-CREATE TABLE fraud.upload_session
+CREATE TABLE idp_data.upload_session
 (
     id	                    BIGINT NOT NULL,
     time_stamp	            TIMESTAMP NOT NULL,
@@ -11,9 +11,9 @@ CREATE TABLE fraud.upload_session
     PRIMARY KEY (id)
 )
 TABLESPACE pg_default;
-ALTER TABLE fraud.upload_session OWNER to event_system_owner;
+ALTER TABLE idp_data.upload_session OWNER to event_system_owner;
 
-CREATE TABLE fraud.upload_session_validation_failures
+CREATE TABLE idp_data.upload_session_validation_failures
 (
     id	                    BIGINT NOT NULL,
     upload_session_id       BIGINT NOT NULL,
@@ -21,14 +21,14 @@ CREATE TABLE fraud.upload_session_validation_failures
     field                   TEXT COLLATE pg_catalog."default" NOT NULL,
     message                 TEXT COLLATE pg_catalog."default" NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES fraud.upload_session(id)
+    CONSTRAINT upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES idp_data.upload_session(id)
       ON DELETE RESTRICT
       ON UPDATE RESTRICT
 )
 TABLESPACE pg_default;
-ALTER TABLE fraud.upload_session_validation_failures OWNER to event_system_owner;
+ALTER TABLE idp_data.upload_session_validation_failures OWNER to event_system_owner;
 
-CREATE TABLE fraud.idp_fraud_events
+CREATE TABLE idp_data.idp_fraud_events
 (
     id	                    BIGINT NOT NULL,
     idp_entity_id	        TEXT COLLATE pg_catalog."default" NOT NULL,
@@ -45,20 +45,20 @@ CREATE TABLE fraud.idp_fraud_events
     CONSTRAINT event_id_fkey FOREIGN KEY (event_id) REFERENCES billing.fraud_events(event_id)
       ON DELETE RESTRICT
       ON UPDATE RESTRICT,
-    CONSTRAINT upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES fraud.upload_session(id)
+    CONSTRAINT upload_session_id_fkey FOREIGN KEY (upload_session_id) REFERENCES idp_data.upload_session(id)
       ON DELETE RESTRICT
       ON UPDATE RESTRICT
 )
 TABLESPACE pg_default;
-ALTER TABLE fraud.idp_fraud_events OWNER to event_system_owner;
+ALTER TABLE idp_data.idp_fraud_events OWNER to event_system_owner;
 
-CREATE UNIQUE INDEX idp_fraud_events_idp_entity_id_idp_event_id_idx ON fraud.idp_fraud_events(idp_entity_id, idp_event_id);
+CREATE UNIQUE INDEX idp_fraud_events_idp_entity_id_idp_event_id_idx ON idp_data.idp_fraud_events(idp_entity_id, idp_event_id);
 
-CREATE TABLE fraud.contra_indicators
+CREATE TABLE idp_data.contra_indicators
 (
     idp_fraud_events_id     BIGINT,
     contra_indicator        TEXT COLLATE pg_catalog."default" NOT NULL,
     PRIMARY KEY (idp_fraud_events_id, contra_indicator)
 )
 TABLESPACE pg_default;
-ALTER TABLE fraud.contra_indicators OWNER to event_system_owner;
+ALTER TABLE idp_data.contra_indicators OWNER to event_system_owner;
