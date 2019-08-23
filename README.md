@@ -87,17 +87,26 @@ docker-compose down
 ## Connecting
 
 It is sometimes necessary to connect to a PostgreSQL database directly using the `psql` shell.
-To expedite connections to AWS-hosted instances, the `postgres.env.sh.template` has been provided.
-Once configured, it exports appropriate variables for connecting with the `psql` shell without arguments.
+To expedite connections to AWS-hosted instances, `postgres.env.sh` has been provided.
+Given the database host URL (without a prefix) as an argument, it exports appropriate environment variables for
+connecting via the `psql` shell without arguments.
+AWS RDS instances use the RDS endpoint as the host URL.
+For example:
 
-A minimal configuration should make a copy of the template.
-`postgres.env.sh` has been ignored, so can be safely modified.
-Then set the database host path - for AWS this is the RDS endpoint.
-Then simply `source` it in your current session, and run `psql` to connect.
+```bash
+source ./postgres.env.sh database_name.database_uid.region.rds.amazonaws.com
+psql
+```
 
 Note that you must have the AWS CLI installed and available in the session.
-You should also authenticate to an **admin** role in whichever AWS account the DB resides in.
-Admin access is currently required to assume a database role, even if the role provides read-only access to the DB.
+You should also authenticate to either: a role that has been granted access to connect to the database in question,
+or an admin role in whichever AWS account the DB resides in.
+Admin access will be required if an [IAM policy with the `rds-db:connect` action][aws:rds:iam] has not been configured,
+even if the database user only provides read-only access to the DB.
+
+[aws:rds:iam]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.IAMPolicy.html
 
 Setting `PGSSLMODE` explicitly may be unnecessary, but is the recommended connection mode.
-There is more information in the [AWS documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts.General.SSL).
+There is more information in the [AWS documentation][aws:rds:ssl].
+
+[aws:rds:ssl]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts.General.SSL
