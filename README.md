@@ -83,3 +83,30 @@ stop the Postgres instance:
 ```bash
 docker-compose down
 ```
+
+## Connecting
+
+It is sometimes necessary to connect to a PostgreSQL database directly using the `psql` shell.
+To expedite connections to AWS-hosted instances, `postgres.env.sh` has been provided.
+Given the database host URL (without a prefix) as an argument, it exports appropriate environment variables for
+connecting via the `psql` shell without arguments.
+AWS RDS instances use the RDS endpoint as the host URL.
+For example:
+
+```bash
+source ./postgres.env.sh database_name.database_uid.region.rds.amazonaws.com
+psql
+```
+
+Note that you must have the AWS CLI installed and available in the session.
+You should also authenticate to either: a role that has been granted access to connect to the database in question,
+or an admin role in whichever AWS account the DB resides in.
+Admin access will be required if an [IAM policy with the `rds-db:connect` action][aws:rds:iam] has not been configured,
+even if the database user only provides read-only access to the DB.
+
+[aws:rds:iam]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.IAMPolicy.html
+
+Setting `PGSSLMODE` explicitly may be unnecessary, but is the recommended connection mode.
+There is more information in the [AWS documentation][aws:rds:ssl].
+
+[aws:rds:ssl]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts.General.SSL
