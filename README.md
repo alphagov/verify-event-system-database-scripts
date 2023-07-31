@@ -2,6 +2,10 @@
 
 SQL scripts and schemas for the Event System database.
 
+>**GOV.UK Verify has closed**
+>
+>This repository is out of date and has been archived
+
 ## Migrations
 
 The migrations directory holds the SQL scripts which were used to create the current database. They are used by the
